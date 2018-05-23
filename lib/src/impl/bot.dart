@@ -90,14 +90,14 @@ class _TelegramBot implements TelegramBot {
   Future<T> sendCommand<T>(Command<T> command) => _process(count++, command);
 
   Future<T> _process<T>(int id, Command<T> command) async {
-    print("sending  #$id: $command");
+//    print("sending  #$id: $command");
     var result = await post(
         _client,
         token,
         command.method,
         (command as Serializable).toMap()['data']
     );
-    print('received #$id: ${json2string(result)}');
+//    print('received #$id: ${json2string(result)}');
     // TODO: handle error responses
     return command.convert(result['result']);
   }
