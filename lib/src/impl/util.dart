@@ -87,7 +87,8 @@ Future<Map<String, Object>> post(
   var body = data == null || data.isEmpty ? "" : JSON.encode(data);
 
   HttpClientResponse response = await _client.postUrl(
-      Uri.parse('https://api.telegram.org/bot$token/$method')
+      Uri.parse('https://tbot.delidela.com/bot$token/$method')
+//      Uri.parse('https://api.telegram.org/bot$token/$method')
   ).then((HttpClientRequest request) {
     request.headers.contentType = new ContentType("application", "json", charset: "utf-8");
     request.write(body);
