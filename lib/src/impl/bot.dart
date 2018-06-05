@@ -66,24 +66,24 @@ Stream<Update> _pollForUpdates(
 class _TelegramBot implements TelegramBot {
   final String token;
   final List<Proxy> proxies;
-//  HttpClient _client = new HttpClient();
+  HttpClient _client = new HttpClient();
   int count = 0;
   _TelegramBot(this.token, {this.proxies = const []}) {
-//    if (proxies.isNotEmpty) {
-//      _client.findProxy = (Uri url) {
-//        Proxy suitableProxy = proxies.firstWhere((Proxy proxy) =>
-//          Uri.parse(proxy.url).scheme == url.scheme &&
-//            Uri.parse(proxy.url).host == url.host,
-//          orElse: null
-//        );
-//        if (suitableProxy != null) {
-//          return HttpClient.findProxyFromEnvironment(
-//              Uri.parse(suitableProxy.url),
-//              environment: suitableProxy.toMap()
-//          );
-//        }
-//      };
-//    }
+    if (proxies.isNotEmpty) {
+      _client.findProxy = (Uri url) {
+        Proxy suitableProxy = proxies.firstWhere((Proxy proxy) =>
+          Uri.parse(proxy.url).scheme == url.scheme &&
+            Uri.parse(proxy.url).host == url.host,
+          orElse: null
+        );
+        if (suitableProxy != null) {
+          return HttpClient.findProxyFromEnvironment(
+              Uri.parse(suitableProxy.url),
+              environment: suitableProxy.toMap()
+          );
+        }
+      };
+    }
   }
 
   @override
@@ -92,7 +92,7 @@ class _TelegramBot implements TelegramBot {
   Future<T> _process<T>(int id, Command<T> command) async {
 //    print("sending  #$id: $command");
     var result = await post(
-//        _client,
+        _client,
         token,
         command.method,
         (command as Serializable).toMap()['data']
