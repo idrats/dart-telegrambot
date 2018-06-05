@@ -79,13 +79,15 @@ List<List<Object>> ll2m<I>(
     mapOrNull(source, (lst) => lst.map((e) => convert(e)));
 
 Future<Map<String, Object>> post(
-  HttpClient _client,
+//  HttpClient _client,
   String token,
   String method, [
   Map<String, Object> data = const {},
 ]) async {
   var body = data == null || data.isEmpty ? "" : JSON.encode(data);
 
+  //TODO: Разобраться, почему ошибка при использовании одного коннекта
+  HttpClient _client = new HttpClient();
   HttpClientResponse response = await _client.postUrl(
       Uri.parse('https://tbot.delidela.com/bot$token/$method')
 //      Uri.parse('https://api.telegram.org/bot$token/$method')
@@ -99,6 +101,8 @@ Future<Map<String, Object>> post(
   await response.transform(UTF8.decoder).listen((contents) {
     result = JSON.decode(contents);
   });
+
+  _client.close();
   return result;
 }
 
